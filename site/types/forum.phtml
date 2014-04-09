@@ -1,0 +1,42 @@
+<?php
+
+$limit = 4;
+$offset = 0;
+
+if (isset($_POST['page'])) {
+    $page = $_POST['page'];
+    $offset = $page * $limit;
+} else {
+    $page = 0;
+}
+
+$this->description = '';
+
+$app = OntoWiki::getInstance();
+
+$model = $app->selectedModel;
+$store = $model->getStore();
+
+$closure = $store->getTransitiveClosure((string)$model, 'http://rdfs.org/sioc/ns#has_parent', array($this->resourceUri), true);
+
+$union = '';
+$where = '';
+foreach ($closure as $container => $node) {
+    $where.= $union . ' {<' . $container . '> sioc:container_of ?resourceUri } ' . PHP_EOL;
+    $where.= 'union { ?resourceUri sioc:has_container <' . $container . '> } ' . PHP_EOL;
+    $union = 'union';
+}
+$where.= 'optional { ?resourceUri dct:created ?created }';
+?>
+<span><?= $this->description ?></span>
+
+<?= $this->query(
+    array(
+        'where' => $where,
+        'orderby' => 'desc(?created)',
+        'template' => 'post',
+        'limit' => $limit,
+        'offset' => $offset
+    )
+) ?>
+

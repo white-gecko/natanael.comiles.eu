@@ -1,0 +1,169 @@
+/*
+ */
+
+@font-face {
+    font-family: 'GNUTypewriter';
+    src: url('gtw.otf') format("otf"), url('gtw.ttf') format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #031b39;
+    /* background: fixed linear-gradient(120deg, #0c72b2, #031b39, #0c72b2); */
+    background: fixed url('../images/background.png');
+    color: #444444;
+    font-family: 'DejaVu Sans';
+}
+
+p {
+    font-family: 'DejaVu Serif';
+}
+
+a {
+    color: #52748a ;
+    text-decoration: none ;
+}
+
+a:hover {
+    color: #0c72b2 ;
+    color: #009cff ;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-family: 'GNUTypewriter';
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 32pt;
+}
+
+h2 {
+    font-size: 24pt;
+}
+
+.page_margins {
+    margin: 0px auto ;
+    width: 80% ;
+    padding: 2em;
+}
+
+#topNavigation ul {
+    clear: both;
+    margin: 1%;
+    margin-bottom: 0px;
+}
+
+#topNavigation ul li {
+    background: rgba(255,255,255,.8);
+    padding: 1%;
+    padding-bottom: .5%;
+    border: none;
+    margin: 0px;
+    border-radius: 5px 20px 0px 0px;
+}
+
+#topNavigation ul li.active {
+    padding-bottom: 1%;
+}
+
+#topNavigation ul li:hover {
+    background-color: white;
+}
+
+#page {
+    width: 64% ;
+    float: left ;
+}
+
+.pagination {
+    position: fixed;
+    top: 50%;
+}
+
+#forward.pagination {
+    right: 2%;
+}
+#back.pagination {
+    left: 2%;
+}
+
+.page-module {
+    /*background: linear-gradient(120deg, rgba(255,255,255,.6), rgba(255,255,255,.8), rgba(255,255,255,.5));*/
+    background: rgba(255,255,255,.8);
+    padding: 1%;
+    margin: 1%;
+}
+
+.page-module:hover {
+    background-color: rgba(255, 2555, 255, .9);
+}
+
+.sidebar-module {
+    width: 28% ;
+    float: left ;
+}
+
+.post {
+    border-bottom: 2px solid #031b39 ;
+}
+
+.post .metadata, .post .content {
+    margin: 1%;
+    padding: 1%;
+}
+.post .content {
+    font-family: 'DejaVu Serif';
+}
+
+/*
+ * General elements
+ */
+.horizontal-list {
+    display: inline;
+    padding: 0;
+}
+
+.horizontal-list li {
+    display: inline;
+}
+
+/*
+ * Tag cloud style
+ */
+.tagcloud {
+    text-align: justify;
+}
+.tagcloud-tag a {
+    padding: .2em;
+    text-decoration: none;
+}
+.tagcloud-tag-selected a {
+    color: #ffffff;
+    background-color: #0c72b2;
+    border-radius: .2em;
+}
+.tagcloud-tag-0 {
+    font-size: xx-small;
+}
+.tagcloud-tag-1 {
+    font-size: x-small;
+}
+.tagcloud-tag-2 {
+    font-size: small;
+}
+.tagcloud-tag-3 {
+    font-size: medium;
+}
+.tagcloud-tag-4 {
+    font-size: large;
+}
+.tagcloud-tag-5 {
+    font-size: x-large;
+}
+.tagcloud-tag-6 {
+    font-size: xx-large;
+}

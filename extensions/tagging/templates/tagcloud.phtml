@@ -1,0 +1,37 @@
+<div class="tagcloud">
+<?php
+$tagcloud = $this->result;
+$softMaxSize = 100;
+if (count($tagcloud) < $softMaxSize) {
+    $threshold = 0;
+} else {
+    $threshold = 1;
+}
+$max = $tagcloud[0]['weight'];
+$min = max($tagcloud[0]['weight'], $threshold+1);
+$classes = 5;
+foreach ($tagcloud as $tag) {
+    if ($tag['weight'] > $threshold) {
+        $max = max($max, $tag['weight']);
+        $min = min($min, $tag['weight']);
+    }
+}
+
+$range = $max - $min;
+$classSize = $range / $classes;
+//echo 'range: ' . $range . '; max: ' . $max . '; min: ' . $min . '; size: ' . $classSize;
+foreach ($tagcloud as $tag) :
+    $w = $tag['weight'];
+    if ($w > $threshold) :
+        if (in_array($tag['tag'], $this->selected)) {
+            $selected = 'tagcloud-tag-selected';
+        } else {
+            $selected = '';
+        }
+?>
+<span class="tagcloud-tag <?= $selected ?> tagcloud-tag-<?= (($w == $min)?1:(ceil(($w-$min)/$classSize))) ?>"><a href="<?= $tag['tag'] ?>" title="<?= $w ?>"><?= $tag['label'] ?></a></span>
+<?php
+    endif;
+endforeach;
+?>
+</div>

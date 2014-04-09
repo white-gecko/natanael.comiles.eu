@@ -1,0 +1,21 @@
+<?php
+/**
+ * This file is part of the {@link http://ontowiki.net OntoWiki} project.
+ *
+ * @copyright Copyright (c) 2014, {@link http://aksw.org AKSW}
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
+ */
+
+?>
+<h3>Metadata</h3>
+<dl>
+<?= $this->literal(array('tag' => 'dd', 'property' => 'dc:creator', 'prefix' => '<dt>Author</dt>')) ?>
+<?php
+$date = $this->literal(array('property' => 'dct:created', 'plain' => true));
+if (!empty($date)) {
+   echo '<dt>Published</dt>';
+   echo '<dd>' . $this->date($date) . '</dd>';
+}
+?>
+</dl>
+<?php

@@ -1,0 +1,122 @@
+<?php
+/**
+ * This file is part of the {@link http://ontowiki.net OntoWiki} project.
+ *
+ * @copyright Copyright (c) 2013, {@link http://aksw.org AKSW}
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
+ */
+
+/**
+ * blog layout template
+ *
+ * the most out template layer
+ */
+
+// edit link for the universal edit button
+$editUrl = $this->wikiBaseUrl .'view?r=' . urlencode($this->resourceUri);
+
+// this is the standard template data
+$templateData = $this->templateData;
+
+$memoryModel = new Erfurt_Rdf_MemoryModel($this->description);
+$types = $memoryModel->getValues($this->resourceUri, EF_RDF_TYPE);
+
+$title = $templateData['title'] . ' &mdash; ' . $this->siteConfig['name'];
+
+$subForumWhere = '{' . PHP_EOL;
+$subForumWhere.= '    ?resourceUri a sioc:Forum .' . PHP_EOL;
+$subForumWhere.= '} union {' . PHP_EOL;
+$subForumWhere.= '    ?resourceUri a sioc:Container .' . PHP_EOL;
+$subForumWhere.= '}' . PHP_EOL;
+//$this->query(array('where' => $subForumWhere))
+$categoryUri = $this->resourceUri;
+?><!doctype html>
+<html lang="de" prefix="<?php foreach ($this->namespaces as $prefix => $ns): echo $prefix . ':' . $ns . ' '; endforeach; ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <meta name="generator" content="<?= $this->generator ?>" />
+    <link rel="alternate" type="application/rdf+xml" href="<?= $this->resourceUri ?>.rdf" />
+    <link rel="alternate" type="text/turtle" href="<?= $this->resourceUri ?>.ttl" />
+    <link rel="pingback" href="<?= $this->pingbackUrl ?>" />
+    <link rel="<?= $this->curie('foaf:primaryTopic') ?>" href="<?= $this->resourceUri?>" />
+
+    <link rel="stylesheet" type="text/css" media="all" href="<?= $this->baseUri ?>/style/main.css" title="Standard" />
+    <link rel="icon" type="image/png" href="<?php echo $this->baseUri ?>/images/favicon.png" />
+
+    <link rel="alternate" type="application/wiki" title="Edit this page!" href="javascript:myEdit()" />
+
+    <title><?= $title ?></title>
+</head>
+<body about="<?php echo $this->resourceUri ?>" typeof="<?php foreach ($types as $type) {echo $type['value'] . ' '; } ?>" >
+    <div class="page_margins">
+        <h1><?= $this->siteConfig['name'] ?></h1>
+        <div id="topNavigation">
+<?php
+$navOptions = array(
+    'navResource' => 'http://natanael.comiles.eu/blog/navigation/main',
+    'navId' => 'nav-main',
+    'listClass' => 'horizontal-list',
+    'suffix'    => '<!-- /#nav-main -->',
+    'activeUrl' => $categoryUri
+);
+echo $this->navigationList($navOptions);
+?>
+</div>
+        <div id="page" class="page-module">
+            <article id="content">
+                <?= $this->renderx() ?>
+            </article> <!-- /#content -->
+        </div> <!-- /#page -->
+
+<?php
+if (isset($_POST['page'])) {
+    $page = $_POST['page'];
+} else {
+    $page = 0;
+}
+        ?>
+        <span id="back" class="pagination">
+            <form action="" method="post" name="backform">
+                <input type="hidden" name="page" value="<?= $page+1 ?>" />
+                <a href="javascript:document.backform.submit()"><img src="<?= $this->baseUri ?>/images/arrow_left.png" alt="back arrow" /></a>
+            </form>
+        </span>
+        <span id="forward" class="pagination">
+            <form action="" method="post" name="forwardform">
+                <input type="hidden" name="page" value="<?= $page-1 ?>" />
+                <a href="javascript:document.forwardform.submit()"><img src="<?= $this->baseUri ?>/images/arrow_right.png" alt="forward arrow" /></a>
+            </form>
+        </span>
+<?php
+$metadata = $this->renderx(array('templateProp' => 'http://ns.ontowiki.net/SysOnt/Site/metadataTemplate'));
+if (!empty($metadata)) :
+?>
+            <div class="page-module sidebar-module">
+<?= $metadata ?>
+            </div>
+<?php endif ?>
+            <div class="page-module sidebar-module">
+<?php
+    $tags = $this->literal(array('property' => 'ctag:tagged', 'plain' => true, 'array' => true));
+?>
+                <?= $this->module('tagcloud', array('noChrome' => true, 'selected' => $tags)) ?>
+            </div>
+            <div class="page-module sidebar-module">
+            <h3>Technical</h3>
+                <ul>
+                <li><a href="<?= $this->Url(array('uri' => $this->resourceUri, 'stayOnSite' => false)) ?>">View resource in OntoWiki</a></li>
+                    <li>Export as RDF/XML</li>
+                    <li>Export as Turtle</li>
+                </ul>
+            </div>
+<!--//
+        <div class="page-module sidebar-module" id="footer">
+            Footer
+        </div>
+//-->
+    </div> <!-- /.page_margins -->
+</body>
+</html>
+

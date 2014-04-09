@@ -1,0 +1,29 @@
+<?php
+
+$limit = 4;
+$offset = 0;
+
+if (isset($_POST['page'])) {
+    $page = $_POST['page'];
+    $offset = $page * $limit;
+} else {
+    $page = 0;
+}
+
+$this->description = '';
+
+$where = '{ ?resourceUri ctag:tagged <' . $this->resourceUri . '> } ' . PHP_EOL;
+$where.= 'optional { ?resourceUri dct:created ?created }';
+?>
+<h2><?= $this->title ?></h2>
+<span><?= $this->description ?></span>
+
+<?= $this->query(
+    array(
+        'where' => $where,
+        'orderby' => 'desc(?created)',
+        'template' => 'post',
+        'limit' => $limit,
+        'offset' => $offset
+    )
+) ?>

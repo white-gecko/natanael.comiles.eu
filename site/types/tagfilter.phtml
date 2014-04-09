@@ -1,0 +1,27 @@
+<?php
+
+$tags = $_POST['tags'];
+
+// TODO check if $tags is array or json string
+
+if (count($tags) > 0) {
+    $where = '';
+    foreach ($tags as $tag) {
+        $where.= '?resourceUri ctag:tagged <' . $tag . '> . ' . PHP_EOL;
+    }
+    $where.= 'optional { ?resourceUri dct:created ?created }';
+}
+?>
+<h2><?= $this->title ?></h2>
+<span><?= $this->description ?></span>
+
+<?= $this->query(
+    array(
+        'where' => $where,
+        'orderby' => 'desc(?created)',
+        'template' => 'post',
+        'limit' => 4
+    )
+) ?>
+
+pagination

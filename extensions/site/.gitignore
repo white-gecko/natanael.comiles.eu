@@ -1,0 +1,4 @@
+syntax: glob
+
+sites/local
+Makefile

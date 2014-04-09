@@ -1,0 +1,27 @@
+<?php
+/**
+ * This file is part of the {@link http://ontowiki.net OntoWiki} project.
+ *
+ * @copyright Copyright (c) 2014, {@link http://aksw.org AKSW}
+ * @license http://opensource.org/licenses/gpl-license.php GNU General Public License (GPL)
+ */
+
+/**
+ * aksw.org feedentry template
+ *
+ * used by the feeds module over the template option
+ */
+// $this->url(array('uri' => ))
+
+$categoryWhere = '{ <' . $this->resourceUri . '> sioc:has_container ?resourceUri }';
+$categoryWhere.= 'union { ?resourceUri sioc:container_of <' . $this->resourceUri . '> }';
+?>
+<div class="post">
+    <h2><a href="<?= $this->url(array('uri' => $this->resourceUri)) ?>"><?= $this->title ?></a></h2>
+    <div class="metadata">Date: <?= $this->date($this->literal(array('property' => 'dct:created', 'plain' => true))) ?></div>
+    <div class="content"><?= $this->literal(array('plain' => true)) ?></div>
+    <div class="metadata">
+        Category: <?= $this->query(array('where' => $categoryWhere, 'listClass' => 'horizontal-list')) ?>;
+        Tags: <?= $this->query(array('where' => '<' . $this->resourceUri . '> ctag:tagged ?resourceUri', 'listClass' => 'horizontal-list')) ?>
+    </div>
+</div>
