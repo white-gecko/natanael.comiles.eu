@@ -19,7 +19,7 @@ $categoryWhere.= 'union { ?resourceUri sioc:container_of <' . $this->resourceUri
 <div class="post">
     <h2><a href="<?= $this->url(array('uri' => $this->resourceUri)) ?>"><?= $this->title ?></a></h2>
     <div class="metadata">Date: <?= $this->date($this->literal(array('property' => 'dct:created', 'plain' => true))) ?></div>
-    <div class="content"><?= $this->literal(array('plain' => true)) ?></div>
+    <div class="content"><?= $this->literal() ?></div>
     <div class="metadata">
         Category: <?= $this->query(array('where' => $categoryWhere, 'listClass' => 'horizontal-list')) ?>;
         Tags: <?= $this->query(array('where' => '<' . $this->resourceUri . '> ctag:tagged ?resourceUri', 'listClass' => 'horizontal-list')) ?>
