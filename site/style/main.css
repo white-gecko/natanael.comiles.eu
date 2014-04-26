@@ -104,8 +104,7 @@ h2 {
 
 .sidebar-module {
     width: 28% ;
-    float: none ;
-    margin-right: 0;
+    float: left ;
 }
 
 .post {
@@ -120,7 +119,7 @@ h2 {
     font-family: 'DejaVu Serif';
 }
 
-.post .content img {
+article .content img, .post .content img {
     max-height: 150px;
 }
 
